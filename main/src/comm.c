@@ -36,6 +36,8 @@ void comm_start(const struct peer *dev_peer)
 	    return;
 	}
 
+	hmi_conn_status_set(true);
+
     ESP_LOGI(TAG, "Communication start");
 }
 
@@ -47,6 +49,8 @@ void comm_stop()
 
 	write_chr = NULL;
 	read_chr = NULL;
+
+	hmi_conn_status_set(false);
 }
 
 void comm_init()
@@ -73,10 +77,9 @@ int comm_read_cb(uint16_t conn_handle,
 
 		os_mbuf_copydata(attr->om, 0, DATA_BUF_SIZE, &data);
 
-		ESP_LOGI(TAG, "client pwr: %d, %d",
-				power_level_to_dbm(data.client.power),data.client.counter);
-		ESP_LOGI(TAG, "server pwr: %d, %d, rssi: %d",
-				power_level_to_dbm(data.server.power),data.server.counter,rssi);
+		hmi_show_param(data.client.power,data.client.counter,
+				data.server.power,data.server.counter,
+				rssi);
 	}
 
 	return 0;

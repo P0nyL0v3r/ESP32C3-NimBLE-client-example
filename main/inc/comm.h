@@ -1,7 +1,7 @@
 /*
  * comm.h
  *
- *  Created on: 6 ÿíâ. 2023 ã.
+ *  Created on: 6 ï¿½ï¿½ï¿½. 2023 ï¿½.
  *      Author: user
  */
 
@@ -20,7 +20,7 @@
 #include "blecent.h"
 
 #define DATA_BUF_SIZE	256
-#define COMM_DLY_MS		500
+#define COMM_DLY_MS		50
 
 #define DEVICE_UUID 0x180
 #define READ_UUID 0xFEF4

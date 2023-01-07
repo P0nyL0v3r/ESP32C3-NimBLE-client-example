@@ -7,6 +7,8 @@
 
 #include "hmi.h"
 
+#include "string.h"
+
 #include "esp_bt.h"
 #include "esp_log.h"
 
@@ -14,21 +16,26 @@
 #include "freertos/task.h"
 #include "freertos/semphr.h"
 
-#include "driver/i2c.h"
+//#include "driver/i2c.h"
 #include "driver/gpio.h"
 
-#define I2C_MASTER_SCL_IO           GPIO_NUM_0      		   /*!< GPIO number used for I2C master clock */
-#define I2C_MASTER_SDA_IO           GPIO_NUM_1      		   /*!< GPIO number used for I2C master data  */
-#define I2C_MASTER_NUM              0                          /*!< I2C master i2c port number, the number of i2c peripheral interfaces available will depend on the chip */
-#define I2C_MASTER_FREQ_HZ          100000                     /*!< I2C master clock frequency */
-#define I2C_MASTER_TX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
-#define I2C_MASTER_RX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
-#define I2C_MASTER_TIMEOUT_MS       1000
+#include "ssd1306.h"
+#include "font8x8_basic.h"
+
+//#define I2C_MASTER_SCL_IO           GPIO_NUM_0      		   /*!< GPIO number used for I2C master clock */
+//#define I2C_MASTER_SDA_IO           GPIO_NUM_1      		   /*!< GPIO number used for I2C master data  */
+//#define I2C_MASTER_NUM              0                          /*!< I2C master i2c port number, the number of i2c peripheral interfaces available will depend on the chip */
+//#define I2C_MASTER_FREQ_HZ          100000                     /*!< I2C master clock frequency */
+//#define I2C_MASTER_TX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
+//#define I2C_MASTER_RX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
+//#define I2C_MASTER_TIMEOUT_MS       1000
 
 #define MIN_POWER ESP_PWR_LVL_N0
 #define MAX_POWER ESP_PWR_LVL_P21
 
 #define BUTTON_PIN GPIO_NUM_9
+
+SSD1306_t disp;
 
 xTaskHandle button_task_handle;
 
@@ -53,6 +60,24 @@ void change_power()
 	esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, pwr);
 }
 
+int8_t avg_rssi(int8_t rssi)
+{
+	static int avg = 0, idx = 0, sum = 0;
+
+	if(idx >= 20)
+	{
+		avg = sum/idx;
+		idx = 0;
+		sum = 0;
+	}
+	else
+	{
+		sum +=rssi;
+		idx++;
+	}
+	return avg;
+}
+
 void button_task(void * arg)
 {
 	gpio_set_direction(BUTTON_PIN, GPIO_MODE_INPUT);
@@ -73,25 +98,11 @@ void button_task(void * arg)
 
 void hmi_init()
 {
-	esp_err_t i2c_status;
-
-    int i2c_master_port = I2C_MASTER_NUM;
-    i2c_config_t conf = {
-        .mode = I2C_MODE_MASTER,
-        .sda_io_num = I2C_MASTER_SDA_IO,
-        .scl_io_num = I2C_MASTER_SCL_IO,
-        .sda_pullup_en = GPIO_PULLUP_ENABLE,
-        .scl_pullup_en = GPIO_PULLUP_ENABLE,
-        .master.clk_speed = I2C_MASTER_FREQ_HZ,
-    };
-
-    i2c_param_config(i2c_master_port, &conf);
-    i2c_status = i2c_driver_install(i2c_master_port, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
-    if(i2c_status != ESP_OK)
-    {
-	    ESP_LOGE(TAG, "Can't install I2C driver");
-	    return;
-    }
+	i2c_master_init(&disp, CONFIG_SDA_GPIO, CONFIG_SCL_GPIO, CONFIG_RESET_GPIO);
+	disp._flip = true;
+	ssd1306_init(&disp, 128, 32);
+	ssd1306_clear_screen(&disp, false);
+	ssd1306_contrast(&disp, 0xff);
 
 	BaseType_t status = xTaskCreate((TaskFunction_t)button_task, TAG, 2048,NULL, 1, &button_task_handle);
 	if(status != pdPASS)
@@ -101,4 +112,37 @@ void hmi_init()
 	}
 
 	ESP_LOGI(TAG,"init OK");
+}
+
+void hmi_conn_status_set(bool status)
+{
+#define CONNECTED_STR "  dBm cntr  rssi"
+#define DISCONNECTED_STR "disconnected"
+	ssd1306_clear_line(&disp, 0, false);
+	if(status)
+	{
+		ssd1306_display_text(&disp, 0, CONNECTED_STR, sizeof(CONNECTED_STR), false);
+	}
+	else
+	{
+		ssd1306_display_text(&disp, 0, DISCONNECTED_STR, sizeof(DISCONNECTED_STR), true);
+	}
+}
+
+void hmi_show_param(esp_power_level_t client_pwr, uint16_t client_count,
+					esp_power_level_t server_pwr, uint16_t server_count,
+					int8_t rssi)
+{
+	char str[64];
+
+	sprintf(str, "c %02d  %05d  %02d",
+			power_level_to_dbm(client_pwr),	client_count,
+			avg_rssi(rssi));
+
+	ssd1306_display_text(&disp, 1, str, strlen(str), false);
+
+	sprintf(str, "s %02d  %05d",
+			power_level_to_dbm(server_pwr),server_count);
+
+	ssd1306_display_text(&disp, 2, str, strlen(str), false);
 }

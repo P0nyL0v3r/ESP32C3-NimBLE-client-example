@@ -954,6 +954,21 @@
 			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/spiffs/spiffs_api.c</location>
 		</link>
 		<link>
+			<name>build/ide/esp_idf_components/ssd1306/ssd1306.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/ssd1306.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/ssd1306_i2c.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/ssd1306_i2c.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/ssd1306_spi.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/ssd1306_spi.c</location>
+		</link>
+		<link>
 			<name>build/ide/esp_idf_components/tcp_transport/transport.c</name>
 			<type>1</type>
 			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/tcp_transport/transport.c</location>
@@ -2002,6 +2017,56 @@
 			<name>build/ide/esp_idf_components/spi_flash/esp32c3/spi_flash_rom_patch.c</name>
 			<type>1</type>
 			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/spi_flash/esp32c3/spi_flash_rom_patch.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/nano_gfx.cpp</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/nano_gfx.cpp</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/sprite_pool.cpp</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/sprite_pool.cpp</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_16bit.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_16bit.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_1bit.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_1bit.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_8bit.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_8bit.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_console.cpp</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_console.cpp</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_fonts.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_fonts.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_generic.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_generic.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_menu.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_menu.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_uart.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_uart.c</location>
 		</link>
 		<link>
 			<name>build/ide/esp_idf_components/wifi_provisioning/proto-c/wifi_config.pb-c.c</name>
@@ -3259,6 +3324,86 @@
 			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/spiffs/spiffs/src/spiffs_nucleus.c</location>
 		</link>
 		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/ssd1306_interface.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/ssd1306_interface.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/composite_video.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/composite_video.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/lcd_common.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/lcd_common.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/lcd_il9163.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/lcd_il9163.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/lcd_ili9341.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/lcd_ili9341.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/lcd_pcd8544.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/lcd_pcd8544.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/oled_sh1106.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/oled_sh1106.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/oled_ssd1306.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/oled_ssd1306.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/oled_ssd1325.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/oled_ssd1325.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/oled_ssd1327.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/oled_ssd1327.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/oled_ssd1331.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/oled_ssd1331.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/oled_ssd1351.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/oled_ssd1351.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/oled_template.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/oled_template.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/lcd/vga_monitor.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/lcd/vga_monitor.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/nano_engine/canvas.cpp</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/nano_engine/canvas.cpp</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/nano_engine/core.cpp</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/nano_engine/core.cpp</location>
+		</link>
+		<link>
 			<name>build/ide/esp_idf_components/unity/unity/src/unity.c</name>
 			<type>1</type>
 			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/unity/unity/src/unity.c</location>
@@ -3924,6 +4069,86 @@
 			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/mbedtls/port/sha/dma/sha.c</location>
 		</link>
 		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/i2c/ssd1306_i2c.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/i2c/ssd1306_i2c.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/i2c/ssd1306_i2c_embedded.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/i2c/ssd1306_i2c_embedded.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/i2c/ssd1306_i2c_twi.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/i2c/ssd1306_i2c_twi.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/spi/ssd1306_spi.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/spi/ssd1306_spi.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/spi/ssd1306_spi_avr.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/spi/ssd1306_spi_avr.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/spi/ssd1306_spi_usi.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/spi/ssd1306_spi_usi.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/uart/ssd1306_uart_builtin.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/uart/ssd1306_uart_builtin.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/vga/vga.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/vga/vga.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_hal/arduino/platform.cpp</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_hal/arduino/platform.cpp</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_hal/avr/platform.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_hal/avr/platform.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_hal/energia/platform.cpp</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_hal/energia/platform.cpp</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_hal/esp/platform.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_hal/esp/platform.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_hal/linux/platform.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_hal/linux/platform.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_hal/mingw/platform.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_hal/mingw/platform.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_hal/stm32/platform.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_hal/stm32/platform.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/ssd1306_hal/template/platform.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/ssd1306_hal/template/platform.c</location>
+		</link>
+		<link>
 			<name>build/ide/esp_idf_components/bt/host/nimble/esp-hci/src/esp_nimble_hci.c</name>
 			<type>1</type>
 			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/bt/host/nimble/esp-hci/src/esp_nimble_hci.c</location>
@@ -4267,6 +4492,26 @@
 			<name>build/ide/esp_idf_components/lwip/lwip/src/netif/ppp/vj.c</name>
 			<type>1</type>
 			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/lwip/lwip/src/netif/ppp/vj.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/vga/atmega328p/vga128x64.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/vga/atmega328p/vga128x64.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/vga/atmega328p/vga96x40.c</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/vga/atmega328p/vga96x40.c</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/vga/esp32/CompositeOutput.cpp</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/vga/esp32/CompositeOutput.cpp</location>
+		</link>
+		<link>
+			<name>build/ide/esp_idf_components/ssd1306/src/intf/vga/esp32/vga128x64.cpp</name>
+			<type>1</type>
+			<location>E:/software/esp/frameworks/esp-idf-v4.4.3/components/ssd1306/src/intf/vga/esp32/vga128x64.cpp</location>
 		</link>
 		<link>
 			<name>build/ide/esp_idf_components/bt/common/btc/profile/esp/blufi/blufi_prf.c</name>
