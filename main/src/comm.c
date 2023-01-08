@@ -15,6 +15,7 @@
 #include "esp_log.h"
 
 xTaskHandle comm_task_handle;
+xSemaphoreHandle loop_sem;
 
 static const char* TAG = "COMM";
 
@@ -58,6 +59,8 @@ void comm_init()
 {
 	esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT,MAX_POWER);
 
+	loop_sem = xSemaphoreCreateBinary();
+
 	ESP_LOGI(TAG, "init OK");
 }
 
@@ -72,9 +75,11 @@ int comm_read_cb(uint16_t conn_handle,
 	{
 		read_us = esp_timer_get_time() - tick_us;
 
+	    xSemaphoreGive(loop_sem);
+
 		os_mbuf_copydata(attr->om, 0, DATA_BUF_SIZE, &data);
 
-	    ble_gap_conn_rssi(conn_handle,&data.client.rssi);
+		ble_gap_conn_rssi(conn_handle,&data.client.rssi);
 
 		hmi_show_conn_param(data.power,data.counter,
 				data.server.rssi,data.client.rssi,
@@ -114,8 +119,12 @@ void comm_task(	const struct peer *peer)
 	                           BLE_UUID16_DECLARE(DEVICE_UUID),
 	                           BLE_UUID16_DECLARE(READ_UUID));
 
+	xSemaphoreGive(loop_sem);
+
 	for(;;)
 	{
+		xSemaphoreTake(loop_sem, 5000);
+
 		data.power = esp_ble_tx_power_get(ESP_BLE_PWR_TYPE_DEFAULT);
 
 		tick_us = esp_timer_get_time();
