@@ -6,6 +6,7 @@
  */
 
 #include "hmi.h"
+#include "comm.h"
 
 #include "string.h"
 
@@ -16,22 +17,10 @@
 #include "freertos/task.h"
 #include "freertos/semphr.h"
 
-//#include "driver/i2c.h"
 #include "driver/gpio.h"
 
 #include "ssd1306.h"
 #include "font8x8_basic.h"
-
-//#define I2C_MASTER_SCL_IO           GPIO_NUM_0      		   /*!< GPIO number used for I2C master clock */
-//#define I2C_MASTER_SDA_IO           GPIO_NUM_1      		   /*!< GPIO number used for I2C master data  */
-//#define I2C_MASTER_NUM              0                          /*!< I2C master i2c port number, the number of i2c peripheral interfaces available will depend on the chip */
-//#define I2C_MASTER_FREQ_HZ          100000                     /*!< I2C master clock frequency */
-//#define I2C_MASTER_TX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
-//#define I2C_MASTER_RX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
-//#define I2C_MASTER_TIMEOUT_MS       1000
-
-#define MIN_POWER ESP_PWR_LVL_N0
-#define MAX_POWER ESP_PWR_LVL_P21
 
 #define BUTTON_PIN GPIO_NUM_9
 
@@ -40,6 +29,24 @@ SSD1306_t disp;
 xTaskHandle button_task_handle;
 
 static const char* TAG = "HMI";
+
+struct
+{
+	struct
+	{
+		int server;
+		int client;
+	}rssi;
+}avg;
+struct
+{
+	struct
+	{
+		int server;
+		int client;
+	}rssi;
+}sum;
+
 
 int power_level_to_dbm(esp_power_level_t level)
 {
@@ -60,23 +67,27 @@ void change_power()
 	esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, pwr);
 }
 
-int8_t avg_rssi(int8_t rssi)
+void avg_calc(int8_t server_rssi, int8_t client_rssi)
 {
-	static int avg = 0, idx = 0, sum = 0;
+	static int idx = 0;
 
-	if(idx >= 20)
+	if(idx >= 5)
 	{
-		avg = sum/idx;
+		avg.rssi.server = sum.rssi.server/idx;
+		avg.rssi.client = sum.rssi.client/idx;
+
+		sum.rssi.server = 0;
+		sum.rssi.client = 0;
 		idx = 0;
-		sum = 0;
 	}
 	else
 	{
-		sum +=rssi;
+		sum.rssi.server += server_rssi;
+		sum.rssi.client += client_rssi;
 		idx++;
 	}
-	return avg;
 }
+
 
 void button_task(void * arg)
 {
@@ -103,6 +114,7 @@ void hmi_init()
 	ssd1306_init(&disp, 128, 32);
 	ssd1306_clear_screen(&disp, false);
 	ssd1306_contrast(&disp, 0xff);
+	hmi_conn_status_set(false);
 
 	BaseType_t status = xTaskCreate((TaskFunction_t)button_task, TAG, 2048,NULL, 1, &button_task_handle);
 	if(status != pdPASS)
@@ -116,7 +128,7 @@ void hmi_init()
 
 void hmi_conn_status_set(bool status)
 {
-#define CONNECTED_STR "  dBm cntr  rssi"
+#define CONNECTED_STR "connected"
 #define DISCONNECTED_STR "disconnected"
 	ssd1306_clear_line(&disp, 0, false);
 	if(status)
@@ -129,20 +141,22 @@ void hmi_conn_status_set(bool status)
 	}
 }
 
-void hmi_show_param(esp_power_level_t client_pwr, uint16_t client_count,
-					esp_power_level_t server_pwr, uint16_t server_count,
-					int8_t rssi)
+void hmi_show_conn_param(esp_power_level_t level, uint16_t counter,
+		int8_t server_rssi, int8_t client_rssi,
+		int write_us, int read_us)
 {
 	char str[64];
 
-	sprintf(str, "c %02d  %05d  %02d",
-			power_level_to_dbm(client_pwr),	client_count,
-			avg_rssi(rssi));
+	avg_calc(server_rssi, client_rssi);
 
+	sprintf(str, "Tx,dBm: %02d, %04d",power_level_to_dbm(level),counter);
 	ssd1306_display_text(&disp, 1, str, strlen(str), false);
 
-	sprintf(str, "s %02d  %05d",
-			power_level_to_dbm(server_pwr),server_count);
-
+	sprintf(str,"RSSI s:%02d c:%02d",avg.rssi.server,avg.rssi.client);
 	ssd1306_display_text(&disp, 2, str, strlen(str), false);
+
+	float write_kb_s = (DATA_BUF_SIZE * 8.0 / 1024.0) / ((float)write_us / 1000000.0);
+	float read_kb_s = (DATA_BUF_SIZE * 8.0 / 1024.0) / ((float)read_us / 1000000.0);
+	sprintf(str,"kb/s w:%02d  r:%02d ",(int)write_kb_s, (int)read_kb_s);
+	ssd1306_display_text(&disp, 3, str, strlen(str), false);
 }

@@ -7,7 +7,7 @@ This example based on [SIMS-IOT-Devices / FreeRTOS-ESP-IDF-BLE-Client](https://
 
 * Displaying the connection status to the server
 
-* Display of received signal strength (rssi)
+* Display of connection parameters(rssi, bitrate)
 - Simple protocol through structure with counter and transmit power change (according to client power change)
 
 This example works with the [ESP32C3 NimBLE server example](https://github.com/P0nyL0v3r/ESP32C3-NimBLE-server-example)

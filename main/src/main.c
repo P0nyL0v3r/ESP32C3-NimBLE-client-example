@@ -20,8 +20,6 @@ char *SERVER_NAME = "BLE-Server";
 
 static int blecent_gap_event(struct ble_gap_event *event, void *arg);
 
-//static uint8_t peer_addr[6];
-
 void ble_store_config_init(void);
 
 /**

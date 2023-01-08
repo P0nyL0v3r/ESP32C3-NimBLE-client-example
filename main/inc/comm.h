@@ -19,8 +19,12 @@
 #include "services/gap/ble_svc_gap.h"
 #include "blecent.h"
 
+#include "esp_bt.h"
+
+#include "esp_timer.h"
+
 #define DATA_BUF_SIZE	256
-#define COMM_DLY_MS		50
+#define COMM_DLY_MS		200
 
 #define DEVICE_UUID 0x180
 #define READ_UUID 0xFEF4
@@ -31,19 +35,18 @@ typedef union
   uint8_t raw[DATA_BUF_SIZE];
   struct
   {
+	  esp_power_level_t power;
+	  uint16_t counter;
 	  struct
 	  {
-		  uint32_t power;
-		  uint32_t counter;
-	  }client;
-	  struct
-	  {
-		  uint32_t power;
-		  uint32_t counter;
+		  int8_t rssi;
 	  }server;
+	  struct
+	  {
+		  int8_t rssi;
+	  }client;
   };
 } data_buf;
-
 
 void comm_start(const struct peer *dev_peer);
 void comm_stop();

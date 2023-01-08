@@ -8,8 +8,6 @@
 #include "comm.h"
 #include "hmi.h"
 
-#include "esp_bt.h"
-
 #include "FreeRTOSConfig.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
@@ -23,7 +21,10 @@ static const char* TAG = "COMM";
 const struct peer_chr *write_chr;
 const struct peer_chr *read_chr;
 data_buf data;
-uint32_t counter;
+
+int64_t tick_us;
+int write_us;
+int read_us;
 
 void comm_start(const struct peer *dev_peer)
 {
@@ -55,10 +56,7 @@ void comm_stop()
 
 void comm_init()
 {
-	esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT,ESP_PWR_LVL_P12);
-
-	data.client.power = esp_ble_tx_power_get(ESP_BLE_PWR_TYPE_DEFAULT);
-	data.server.power = data.client.power;
+	esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT,MAX_POWER);
 
 	ESP_LOGI(TAG, "init OK");
 }
@@ -68,18 +66,19 @@ int comm_read_cb(uint16_t conn_handle,
                              struct ble_gatt_attr *attr,
                              void *arg)
 {
-	ESP_LOGI(TAG, "read cb %d",error->status);
+	ESP_LOGD(TAG, "read cb %d",error->status);
 
 	if(error->status == 0)
 	{
-		int8_t rssi = 0;
-		ble_gap_conn_rssi(conn_handle,&rssi);
+		read_us = esp_timer_get_time() - tick_us;
 
 		os_mbuf_copydata(attr->om, 0, DATA_BUF_SIZE, &data);
 
-		hmi_show_param(data.client.power,data.client.counter,
-				data.server.power,data.server.counter,
-				rssi);
+	    ble_gap_conn_rssi(conn_handle,&data.client.rssi);
+
+		hmi_show_conn_param(data.power,data.counter,
+				data.server.rssi,data.client.rssi,
+				write_us,read_us);
 	}
 
 	return 0;
@@ -90,12 +89,15 @@ int comm_write_cb(uint16_t conn_handle,
                              struct ble_gatt_attr *attr,
                              void *arg)
 {
-	ESP_LOGI(TAG, "write cb %d",error->status);
+	ESP_LOGD(TAG, "write cb %d",error->status);
 
 	if(error->status == 0)
 	{
+	    write_us = esp_timer_get_time() - tick_us;
+
 	    const struct peer *peer = peer_find(conn_handle);
 
+	    tick_us = esp_timer_get_time();
 		ble_gattc_read(peer->conn_handle, read_chr->chr.val_handle, comm_read_cb, NULL);
 	}
 
@@ -114,13 +116,9 @@ void comm_task(	const struct peer *peer)
 
 	for(;;)
 	{
-		counter++;
-		data.client.counter = counter;
+		data.power = esp_ble_tx_power_get(ESP_BLE_PWR_TYPE_DEFAULT);
 
-		esp_power_level_t pwr = esp_ble_tx_power_get(ESP_BLE_PWR_TYPE_DEFAULT);
-		data.client.power = pwr;
-		data.server.power = pwr;
-
+		tick_us = esp_timer_get_time();
 		ble_gattc_write_flat(peer->conn_handle, write_chr->chr.val_handle, &data,sizeof(data), comm_write_cb, NULL);
 
 		vTaskDelay(COMM_DLY_MS / portTICK_RATE_MS);
